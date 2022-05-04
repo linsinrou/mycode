@@ -1,5 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
+#include <iostream>
+using namespace std;
 
 template<typename T>
 class Stack
@@ -10,12 +12,13 @@ public:
     ~Stack();
     bool empty() const;
     T peek() const;
-    void push(T value);
+    void push(int value);
     T pop();
     int getSize() const;
+    void printStack(Stack&);
 
 private:
-    T* elements;
+    int* elements;
     int size;
     int capacity;
     void ensureCapacity();
@@ -24,13 +27,13 @@ private:
 template<typename T>
 Stack<T>::Stack() : size(0), capacity(16)
 {
-    elements = new T[capacity];
+    elements = new int[capacity];
 }
- 
+
 template<typename T>
 Stack<T>::Stack(const Stack& stack)
 {
-    elements = new T[stack.capacity];
+    elements = new int[stack.capacity];
     size = stack.size;
     capacity = stack.capacity;
     for (int i = 0; i < size; i++)
@@ -58,7 +61,7 @@ T Stack<T>::peek() const
 }
 
 template<typename T>
-void Stack<T>::push(T value)
+void Stack<T>::push(int value)
 {
     ensureCapacity();
     elements[size++] = value;
@@ -71,7 +74,7 @@ void Stack<T>::ensureCapacity()
     {
         int* old = elements;
         capacity = 2 * size;
-        elements = new T[size * 2];
+        elements = new int[size * 2];
 
         for (int i = 0; i < size; i++)
             elements[i] = old[i];
@@ -90,6 +93,13 @@ template<typename T>
 int Stack<T>::getSize() const
 {
     return size;
+}
+
+template<typename T>
+void Stack<T>::printStack(Stack<T>& stack) {
+    while (!stack.empty())
+        cout << stack.pop() << " ";
+    cout << endl;
 }
 
 #endif
